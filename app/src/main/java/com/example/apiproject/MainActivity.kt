@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -40,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadMeme(){
         binding.progressBar.visibility = android.view.View.VISIBLE
         // Instantiate the RequestQueue.
-        val queue = Volley.newRequestQueue(this)
         val url = "https://meme-api.com/gimme"
 
 // Request a string response from the provided URL.
@@ -80,12 +78,12 @@ class MainActivity : AppCompatActivity() {
         )
 // Add the request to the RequestQueue.
         // Access the RequestQueue through your singleton class.
-        queue.add(jsonObjectRequest)
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
     private fun sharingMeme(){
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT,"Hey, Checkout this cool meme I got from Reddit App Developed By AdityaParihar $currentMemeUrl")
+        intent.putExtra(Intent.EXTRA_TEXT,"Hey, Checkout this cool meme I got from Reddit $currentMemeUrl")
         val chooser = Intent.createChooser(intent,"Share this meme using...")
         startActivity(chooser)
     }
